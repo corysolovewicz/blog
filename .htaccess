@@ -7,3 +7,7 @@ RewriteCond %{REQUEST_FILENAME} !-d
 
 # Append `.html` to the request and serve the corresponding file
 RewriteRule ^(.+)$ $1.html [L]
+
+# If the rewritten file still does not exist, serve the 404.html page
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule . /404.html [L]
