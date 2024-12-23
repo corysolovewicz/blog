@@ -21,7 +21,7 @@ jobs:
           ruby-version: 3.3  # Use the version compatible with your Jekyll setup
 
       # Install dependencies
-     - name: Install dependencies
+      - name: Install dependencies
         run: |
           bundle install
 
