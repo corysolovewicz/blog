@@ -1,0 +1,42 @@
+name: Deploy Jekyll to DreamHost
+
+on:
+  push:
+    branches:
+      - main  # Change this to your default branch if different
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the repository
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Set up Ruby environment
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.3  # Use the version compatible with your Jekyll setup
+
+      # Install dependencies
+     - name: Install dependencies
+        run: |
+          bundle install
+
+      # Build the Jekyll site
+      - name: Build the site
+        run: bundle exec jekyll build
+
+       # Deploy to DreamHost
+      - name: Deploy to DreamHost
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.DREAMHOST_SSH_KEY }}
+        run: |
+          mkdir -p ~/.ssh
+          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H cory.so >> ~/.ssh/known_hosts
+
+          rsync -avz --delete _site/ csolovewicz@cory.so:/home/csolovewicz/cory.so
