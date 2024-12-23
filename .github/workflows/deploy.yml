@@ -1,9 +1,9 @@
 name: Deploy Jekyll to DreamHost
 
 on:
+  # Runs on pushes targeting the default branch
   push:
-    branches:
-      - main  # Change this to your default branch if different
+    branches: ["main"]
 
 jobs:
   build:
